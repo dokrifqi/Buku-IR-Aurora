@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IR · Notulensi AURORA — PPDS IKA FK UNS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== Mobile top bar ===== -->
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar-title">
+      <span class="topbar-mark">IR</span>
+      <span class="topbar-sub">by AURORA</span>
+    </div>
+    <button class="search-btn" id="searchBtn" aria-label="Cari">
+      <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <!-- ===== Sidebar ===== -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="mark">IR</div>
+      <div class="sidebar-head-text">
+        <div class="sidebar-title">Notulensi AURORA</div>
+        <div class="sidebar-meta">Pediatri FK UNS &middot; Feb 2026</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" width="16" height="16" class="search-icon"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" id="searchInput" placeholder="Cari topik, obat, prosedur…" autocomplete="off">
+    </div>
+
+    <div class="cat-list" id="catList"></div>
+
+    <div class="sidebar-foot">
+      <span id="totalCount"></span> catatan &middot; disusun dari notulensi angkatan
+    </div>
+  </nav>
+  <div class="sidebar-scrim" id="scrim"></div>
+
+  <!-- ===== Main ===== -->
+  <main class="main" id="main">
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Rangkuman Notulensi</p>
+        <h1>AURORA</h1>
+        <p class="hero-desc">Kumpulan catatan orientasi, alur kerja stase, dan referensi cepat PPDS Ilmu Kesehatan Anak FK UNS — dirangkum dari notulensi angkatan supaya lebih mudah dicari.</p>
+        <div class="hero-stats" id="heroStats"></div>
+      </div>
+    </section>
+
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
