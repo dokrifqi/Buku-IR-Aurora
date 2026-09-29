@@ -33,6 +33,17 @@ if (window.FIREBASE_READY) {
       });
     }
 
+    async function addCategoryReport(page, currentCat, suggestedCat, note, author){
+      await addDoc(collection(db, 'category_reports'), {
+        page, currentCat, suggestedCat, note: note || '', author: author || 'Anonim',
+        createdAt: serverTimestamp()
+      });
+      await addDoc(collection(db, 'history'), {
+        type: 'report', summary: `melaporkan halaman ${page} salah kategori (usul: ${suggestedCat})`,
+        page, author: author || 'Anonim', createdAt: serverTimestamp()
+      });
+    }
+
     function subscribeNotes(cb){
       const q = query(collection(db, 'notes'), orderBy('createdAt', 'desc'));
       return onSnapshot(q, (snap) => {
@@ -54,7 +65,7 @@ if (window.FIREBASE_READY) {
       }, () => cb([]));
     }
 
-    window.AuroraDB = { addNote, addComment, subscribeNotes, subscribeComments, subscribeHistory, ready: true };
+    window.AuroraDB = { addNote, addComment, addCategoryReport, subscribeNotes, subscribeComments, subscribeHistory, ready: true };
     window.dispatchEvent(new CustomEvent('aurora-db-ready'));
   }).catch(() => {
     window.AuroraDB = { ready: false };

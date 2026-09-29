@@ -53,8 +53,13 @@
 
     <div class="cat-list" id="catList"></div>
 
+    <div class="cat-item recent-item" id="recentNavItem">
+      <span>&#128226; Terbaru</span>
+      <span class="nav-badge" id="recentBadge" style="display:none;"></span>
+    </div>
     <div class="cat-item history-item" id="historyNavItem">
       <span>&#128337; Riwayat Perubahan</span>
+      <span class="nav-badge" id="historyBadge" style="display:none;"></span>
     </div>
 
     <div class="sidebar-tools">
@@ -90,6 +95,11 @@
   </main>
 </div>
 
+<!-- Floating AI ask button -->
+<button class="fab fab-ai" id="fabAI" title="Tanya AI">
+  <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 3a2 2 0 0 1 2 2v1h1a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9.5" cy="12.5" r="1.1" fill="currentColor"/><circle cx="14.5" cy="12.5" r="1.1" fill="currentColor"/><path d="M6 11H4v4h2M18 11h2v4h-2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+</button>
+
 <!-- Floating add-note button -->
 <button class="fab" id="fabAdd" title="Tambah catatan baru">
   <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
@@ -111,6 +121,39 @@
     <input type="text" id="noteAuthor" placeholder="Nama panggilan, biar jelas siapa yang update">
     <button class="modal-submit" id="submitNote">Kirim Catatan</button>
     <p class="modal-status" id="noteStatus"></p>
+  </div>
+</div>
+
+<!-- Report miscategorized entry modal -->
+<div class="modal-backdrop" id="reportModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Laporkan Kategori Salah</h3>
+      <button class="modal-close" id="closeReport">&times;</button>
+    </div>
+    <p class="modal-hint" id="reportContext"></p>
+    <label class="field-label">Harusnya masuk kategori</label>
+    <select id="reportCategory"></select>
+    <label class="field-label">Catatan tambahan (opsional)</label>
+    <textarea id="reportNote" rows="3" placeholder="Contoh: ini sebenarnya bagian Kardiologi, bukan PICU"></textarea>
+    <button class="modal-submit" id="submitReport">Kirim Laporan</button>
+    <p class="modal-status" id="reportStatus"></p>
+  </div>
+</div>
+
+<!-- Ask AI modal -->
+<div class="modal-backdrop" id="aiModal">
+  <div class="modal modal-ai">
+    <div class="modal-head">
+      <h3>&#129302; Tanya AI</h3>
+      <button class="modal-close" id="closeAI">&times;</button>
+    </div>
+    <p class="modal-hint">Jawaban dibuat AI berdasarkan isi notulensi ini saja. <strong>Tetap konfirmasi ke senior/konsulen</strong> untuk keputusan klinis.</p>
+    <div class="ai-log" id="aiLog"></div>
+    <div class="ai-input-row">
+      <textarea id="aiQuestion" rows="2" placeholder="Contoh: dosis norepinefrin berapa?"></textarea>
+      <button class="ai-send-btn" id="aiSend">Kirim</button>
+    </div>
   </div>
 </div>
 

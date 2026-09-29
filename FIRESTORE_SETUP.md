@@ -44,6 +44,11 @@ service cloud.firestore {
       allow create: if true;
       allow update, delete: if false;
     }
+    match /category_reports/{id} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false;
+    }
   }
 }
 ```
