@@ -1,0 +1,557 @@
+{
+ "orientasi": [
+  {
+   "num": 1,
+   "title": "Etika Komunikasi & Perkenalan Diri",
+   "pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Jam Dinas & Jadwal Kegiatan",
+   "pages": [
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Seragam & Persiapan Kuliah",
+   "pages": [
+    12,
+    13,
+    14
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Tata Cara Orientasi ke Senior",
+   "pages": [
+    15,
+    16
+   ]
+  },
+  {
+   "num": 5,
+   "title": "Rumus Cairan & Kalori Dasar",
+   "pages": [
+    17,
+    18
+   ]
+  }
+ ],
+ "nicu": [
+  {
+   "num": 1,
+   "title": "Orientasi & Komunikasi NICU",
+   "pages": [
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Alat & Persiapan Resusitasi Neonatus",
+   "pages": [
+    58,
+    60,
+    61
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Alur Administrasi & Penunjang (Lab, Radiologi, OK IGD)",
+   "pages": [
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Panduan Pengisian ERM NICU",
+   "pages": [
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85
+   ]
+  },
+  {
+   "num": 5,
+   "title": "USG & Echo di NICU",
+   "pages": [
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95
+   ]
+  },
+  {
+   "num": 6,
+   "title": "Timeline Stase & Hal Penting",
+   "pages": [
+    147,
+    148,
+    149
+   ]
+  },
+  {
+   "num": 7,
+   "title": "Kuis & Contoh Kasus Neonatologi",
+   "pages": [
+    136,
+    137,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155
+   ]
+  }
+ ],
+ "picu": [
+  {
+   "num": 1,
+   "title": "Alur Administrasi & Order Penunjang",
+   "pages": [
+    33,
+    39,
+    40,
+    41,
+    42,
+    43
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Persiapan Prosedur (EGD)",
+   "pages": [
+    34
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Alur Kerja Harian PICU",
+   "pages": [
+    35,
+    36,
+    37,
+    38,
+    44
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Ventilator & Interpretasi AGD",
+   "pages": [
+    45,
+    46
+   ]
+  },
+  {
+   "num": 5,
+   "title": "Referensi & Link Belajar PICU/HCU",
+   "pages": [
+    47,
+    48
+   ]
+  },
+  {
+   "num": 6,
+   "title": "Jadwal Stase per Hari (IR per SSD)",
+   "pages": [
+    96,
+    97,
+    98,
+    99,
+    100,
+    101
+   ]
+  },
+  {
+   "num": 7,
+   "title": "Obat Drip & Dosis (Norepinefrin, Dobutamin, dkk)",
+   "pages": [
+    102,
+    103,
+    104,
+    105
+   ]
+  },
+  {
+   "num": 8,
+   "title": "CVC & Perhitungan Nutrisi Oral",
+   "pages": [
+    107,
+    108,
+    109
+   ]
+  }
+ ],
+ "hemato": [
+  {
+   "num": 1,
+   "title": "Contoh Dokumen & Cara Hitung LPB",
+   "pages": [
+    19,
+    20
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Resep & Protokol Kemoterapi",
+   "pages": [
+    21,
+    22
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Persiapan Hardfile & Alur Kemoterapi",
+   "pages": [
+    138,
+    139,
+    140,
+    141
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Prosedur MTX IT & BMP",
+   "pages": [
+    142,
+    143,
+    144,
+    145,
+    146
+   ]
+  }
+ ],
+ "kardio": [
+  {
+   "num": 1,
+   "title": "Contoh Mapping & Pengoperasian Echocardiography",
+   "pages": [
+    23,
+    24
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Timeline Kegiatan Stase Kardiologi",
+   "pages": [
+    116,
+    117
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Konsulan BTKV & Contoh Kasus PJB",
+   "pages": [
+    190,
+    191,
+    192
+   ]
+  }
+ ],
+ "nefro": [
+  {
+   "num": 1,
+   "title": "Persiapan Cath & Contoh SOAP Nefrologi",
+   "pages": [
+    118,
+    119,
+    120,
+    121
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Contoh Resep Obat Nefrologi",
+   "pages": [
+    122
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Timeline & Alur Kerja Harian Nefrologi",
+   "pages": [
+    123,
+    124,
+    125,
+    126,
+    127
+   ]
+  }
+ ],
+ "neuro": [
+  {
+   "num": 1,
+   "title": "Timeline Kegiatan Stase Neurologi",
+   "pages": [
+    128,
+    129,
+    132,
+    133
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Alur Kerja NPM Terkait",
+   "pages": [
+    130,
+    131
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Pemeriksaan Denver II & Contoh Kasus",
+   "pages": [
+    134,
+    135
+   ]
+  }
+ ],
+ "gastro": [
+  {
+   "num": 1,
+   "title": "Penjadwalan USG Abdomen",
+   "pages": [
+    25,
+    26
+   ]
+  }
+ ],
+ "infeksi": [
+  {
+   "num": 1,
+   "title": "Pemeriksaan Lab Khusus (Urin, Feses, CMV PCR)",
+   "pages": [
+    27,
+    28,
+    29,
+    30
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Obat Khusus & Tarif",
+   "pages": [
+    31,
+    32
+   ]
+  }
+ ],
+ "npm": [
+  {
+   "num": 1,
+   "title": "Rabber KFR & Alur Kerja Bangsal",
+   "pages": [
+    110,
+    111,
+    114,
+    115
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Persiapan Kolonoskopi",
+   "pages": [
+    112,
+    113
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Materi & Referensi NPM",
+   "pages": [
+    202
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Kebutuhan Kalori & Gizi Buruk",
+   "pages": [
+    203,
+    204
+   ]
+  },
+  {
+   "num": 5,
+   "title": "Antropometri & Target Kenaikan BB/TB",
+   "pages": [
+    205,
+    206
+   ]
+  },
+  {
+   "num": 6,
+   "title": "Kebutuhan RDA, Protein & GIR",
+   "pages": [
+    207,
+    208,
+    209,
+    210
+   ]
+  },
+  {
+   "num": 7,
+   "title": "Pemberian Susu/Tube Feeding & MPASI",
+   "pages": [
+    211,
+    212,
+    213,
+    217,
+    218
+   ]
+  },
+  {
+   "num": 8,
+   "title": "Diet Ketogenik & Jembatan Keledai",
+   "pages": [
+    214,
+    215,
+    216
+   ]
+  }
+ ],
+ "jaga": [
+  {
+   "num": 1,
+   "title": "Alur & Kontak Senior Jaga Bangsal",
+   "pages": [
+    156,
+    157,
+    158,
+    159
+   ]
+  },
+  {
+   "num": 2,
+   "title": "Cara Membuat Program Jaga",
+   "pages": [
+    160,
+    161,
+    162,
+    163,
+    164
+   ]
+  },
+  {
+   "num": 3,
+   "title": "Contoh Konsulan Toleransi Operasi",
+   "pages": [
+    165,
+    166,
+    167,
+    168,
+    169,
+    170
+   ]
+  },
+  {
+   "num": 4,
+   "title": "Alur Pindahan Pasien & Koordinasi Grup",
+   "pages": [
+    171,
+    172,
+    173,
+    174,
+    175
+   ]
+  },
+  {
+   "num": 5,
+   "title": "Rumus KUVS, Infus & Cairan",
+   "pages": [
+    176,
+    177,
+    178,
+    179,
+    181
+   ]
+  },
+  {
+   "num": 6,
+   "title": "Kegiatan Ilmiah & Contoh Program/Mapping Jaga",
+   "pages": [
+    182,
+    183,
+    184,
+    185,
+    186,
+    187
+   ]
+  },
+  {
+   "num": 7,
+   "title": "Format KUVS Koass & Rumus LPB",
+   "pages": [
+    188,
+    189
+   ]
+  },
+  {
+   "num": 8,
+   "title": "Capture Dokumen ERM",
+   "pages": [
+    193,
+    194,
+    195
+   ]
+  },
+  {
+   "num": 9,
+   "title": "Alur & Contoh Kasus Toleransi Operasi",
+   "pages": [
+    196,
+    197,
+    198,
+    199,
+    200,
+    201
+   ]
+  }
+ ]
+}
