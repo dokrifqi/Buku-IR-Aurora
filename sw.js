@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aurora-ir-v1';
+const CACHE_NAME = 'aurora-ir-v2';
 const SHELL_FILES = [
   './',
   './index.html',

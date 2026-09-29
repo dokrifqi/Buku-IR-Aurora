@@ -753,7 +753,26 @@ function updateDarkLabel(){
 
 /* ===== PWA install + offline status ===== */
 function initPWA(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+  if('serviceWorker' in navigator){
+    const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.register('sw.js').then(reg=>{
+      reg.update().catch(()=>{});
+      reg.addEventListener('updatefound', ()=>{
+        const newWorker = reg.installing;
+        if(!newWorker) return;
+        newWorker.addEventListener('statechange', ()=>{
+          // only reload if a service worker was ALREADY controlling this page before —
+          // that means this is a genuine update, not the very first install
+          if(newWorker.state === 'activated' && hadController){
+            if(!sessionStorage.getItem('aurora_just_reloaded')){
+              sessionStorage.setItem('aurora_just_reloaded', '1');
+              window.location.reload();
+            }
+          }
+        });
+      });
+    }).catch(()=>{});
+  }
   let deferredPrompt = null;
   const installBtn = document.getElementById('installBtn');
   window.addEventListener('beforeinstallprompt', (e)=>{
