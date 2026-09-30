@@ -7,15 +7,22 @@ let HISTORY = [];
 let activeCat = 'all';
 let BOOKMARKS = new Set(JSON.parse(localStorage.getItem('aurora_bookmarks') || '[]'));
 let OPEN_SECTIONS = new Set(JSON.parse(localStorage.getItem('aurora_open_sections') || '[]'));
+let READ_COUNTS = JSON.parse(localStorage.getItem('aurora_read_counts') || '{}');
 let dbReady = false;
 let reportContext = null; // {page, cat}
 
 const contentEl = document.getElementById('content');
-const catListEl = document.getElementById('catList');
+const navPillsEl = document.getElementById('navPills');
 const searchInput = document.getElementById('searchInput');
 const totalCountEl = document.getElementById('totalCount');
 const heroStatsEl = document.getElementById('heroStats');
 const heroEl = document.getElementById('hero');
+
+const CAT_ICONS = {
+  orientasi:'&#129504;', nicu:'&#128118;', picu:'&#127973;', hemato:'&#129656;',
+  kardio:'&#10084;&#65039;', nefro:'&#128167;', neuro:'&#129504;', gastro:'&#127869;',
+  infeksi:'&#129440;', npm:'&#127868;', jaga:'&#127769;'
+};
 
 async function init(){
   const [entries, cats, sections] = await Promise.all([
@@ -28,7 +35,7 @@ async function init(){
   SECTIONS = sections;
   totalCountEl.textContent = entries.length;
   renderStats();
-  renderCatList();
+  renderNavPills();
   populateNoteCategorySelect();
   render();
   bindEvents();
@@ -46,39 +53,34 @@ function renderStats(){
   `;
 }
 
-function renderCatList(){
+function renderNavPills(){
   const favCount = BOOKMARKS.size;
-  let html = `<div class="cat-item fav ${activeCat==='fav'?'active':''}" data-cat="fav">
-    <span>&#9733; Favorit</span><span class="cat-count">${favCount}</span>
-  </div>`;
-  html += `<div class="cat-item community ${activeCat==='community'?'active':''}" data-cat="community">
-    <span>&#128221; Catatan Angkatan</span><span class="cat-count">${COMMUNITY_NOTES.length}</span>
-  </div>`;
-  html += `<div class="cat-item all ${activeCat==='all'?'active':''}" data-cat="all">
-    <span>Semua Topik</span><span class="cat-count">${ENTRIES.length}</span>
-  </div>`;
-  html += CATEGORIES.map(c => `
-    <div class="cat-item ${activeCat===c.key?'active':''}" data-cat="${c.key}">
-      <span>${c.label}</span><span class="cat-count">${c.count}</span>
-    </div>
+  const pills = [];
+  pills.push({cat:'all', icon:'&#128220;', label:'Semua', count:ENTRIES.length});
+  pills.push({cat:'fav', icon:'&#9733;', label:'Favorit', count:favCount, cls:'nb-fav'});
+  pills.push({cat:'community', icon:'&#128221;', label:'Catatan Angkatan', count:COMMUNITY_NOTES.length, cls:'nb-community'});
+  CATEGORIES.forEach(c=>{
+    pills.push({cat:c.key, icon:CAT_ICONS[c.key]||'&#128196;', label:c.label, count:c.count});
+  });
+  pills.push({cat:'recent', icon:'&#128226;', label:'Terbaru', badgeId:'recentBadge'});
+  pills.push({cat:'history', icon:'&#128337;', label:'Riwayat', badgeId:'historyBadge'});
+
+  navPillsEl.innerHTML = pills.map(p => `
+    <button class="nb ${p.cls||''} ${activeCat===p.cat?'active':''}" data-cat="${p.cat}">
+      ${p.icon} ${escapeHtml(p.label)}${p.count!==undefined?` <span class="nb-count">${p.count}</span>`:''}<span class="nav-badge" id="${p.badgeId||''}" style="display:none;"></span>
+    </button>
   `).join('');
-  catListEl.innerHTML = html;
-  catListEl.querySelectorAll('.cat-item').forEach(el=>{
+
+  navPillsEl.querySelectorAll('.nb').forEach(el=>{
     el.addEventListener('click', ()=>{
       activeCat = el.dataset.cat;
       searchInput.value = '';
-      renderCatList();
-      clearSpecialNavActive();
+      renderNavPills();
       render();
-      closeSidebar();
+      closeSearch();
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
-}
-
-function clearSpecialNavActive(){
-  document.getElementById('historyNavItem').classList.remove('active');
-  document.getElementById('recentNavItem').classList.remove('active');
 }
 
 function populateNoteCategorySelect(){
@@ -216,6 +218,12 @@ function catLabel(key){
   return c ? c.label : key;
 }
 
+function readBadgeHtml(secId){
+  const count = READ_COUNTS[secId] || 0;
+  if(count === 0) return `<span class="read-badge unread">Belum dibaca</span>`;
+  return `<span class="read-badge">Dibaca ${count}x</span>`;
+}
+
 function renderCategoryWithSections(catKey, pool){
   const catIndex = CATEGORIES.findIndex(c=>c.key===catKey) + 1;
   const label = catLabel(catKey);
@@ -229,11 +237,12 @@ function renderCategoryWithSections(catKey, pool){
     const items = sub.pages.map(p=>byPage[p]).filter(Boolean);
     if(items.length === 0) return '';
     const secId = `${catKey}-${sub.num}`;
-    const isOpen = OPEN_SECTIONS.has(secId) || sub.num === 1;
+    const isOpen = OPEN_SECTIONS.has(secId);
     return `<details class="section-accordion" data-secid="${secId}" ${isOpen?'open':''}>
       <summary class="section-summary">
         <span class="section-num">${catIndex}.${sub.num}</span>
         <span class="section-title">${escapeHtml(sub.title)}</span>
+        ${readBadgeHtml(secId)}
         <span class="section-count">${items.length}</span>
         <svg class="section-chevron" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </summary>
@@ -251,6 +260,7 @@ function renderCategoryWithSections(catKey, pool){
       <summary class="section-summary">
         <span class="section-num">&#128221;</span>
         <span class="section-title">Catatan Tambahan dari Angkatan</span>
+        ${readBadgeHtml(secId)}
         <span class="section-count">${communityItems.length}</span>
         <svg class="section-chevron" viewBox="0 0 24 24" width="16" height="16"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </summary>
@@ -276,7 +286,18 @@ function renderCategoryWithSections(catKey, pool){
   contentEl.querySelectorAll('.section-accordion').forEach(det=>{
     det.addEventListener('toggle', ()=>{
       const id = det.dataset.secid;
-      if(det.open) OPEN_SECTIONS.add(id); else OPEN_SECTIONS.delete(id);
+      if(det.open){
+        OPEN_SECTIONS.add(id);
+        READ_COUNTS[id] = (READ_COUNTS[id] || 0) + 1;
+        localStorage.setItem('aurora_read_counts', JSON.stringify(READ_COUNTS));
+        const badge = det.querySelector('.read-badge');
+        if(badge){
+          badge.textContent = `Dibaca ${READ_COUNTS[id]}x`;
+          badge.classList.remove('unread');
+        }
+      } else {
+        OPEN_SECTIONS.delete(id);
+      }
       localStorage.setItem('aurora_open_sections', JSON.stringify([...OPEN_SECTIONS]));
     });
   });
@@ -411,7 +432,7 @@ function bindBookmarkButtons(){
       const page = Number(btn.dataset.page);
       if(BOOKMARKS.has(page)) BOOKMARKS.delete(page); else BOOKMARKS.add(page);
       localStorage.setItem('aurora_bookmarks', JSON.stringify([...BOOKMARKS]));
-      renderCatList();
+      renderNavPills();
       if(activeCat === 'fav'){ render(); }
       else {
         btn.classList.toggle('active');
@@ -564,7 +585,7 @@ function renderRecentView(){
   contentEl.querySelectorAll('.feed-note').forEach(el=>{
     el.addEventListener('click', ()=>{
       activeCat = el.dataset.jumpCat;
-      renderCatList(); clearSpecialNavActive(); render();
+      renderNavPills(); render();
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
@@ -573,7 +594,7 @@ function renderRecentView(){
       const page = Number(el.dataset.jumpPage);
       const entry = ENTRIES.find(e=>e.page===page);
       activeCat = entry ? entry.cat : 'all';
-      renderCatList(); clearSpecialNavActive(); render();
+      renderNavPills(); render();
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
@@ -587,7 +608,7 @@ function lastSeen(kind){
   return Number(localStorage.getItem('aurora_seen_'+kind) || 0);
 }
 function updateNavBadges(){
-  const communityBadge = document.querySelector('.cat-item.community .cat-count');
+  const communityBadge = document.querySelector('.nb-community .nb-count');
   const historyBadge = document.getElementById('historyBadge');
   const recentBadge = document.getElementById('recentBadge');
 
@@ -700,7 +721,7 @@ async function sendAIQuestion(){
           const entry = ENTRIES.find(e=>e.page===page);
           if(entry){
             activeCat = entry.cat;
-            renderCatList(); clearSpecialNavActive(); render();
+            renderNavPills(); render();
             closeAIModal();
             window.scrollTo({top:0, behavior:'smooth'});
           }
@@ -722,33 +743,24 @@ function openLightbox(src){
 function closeLightbox(){
   document.getElementById('lightbox').classList.remove('open');
 }
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('scrim').classList.add('open');
+function openSearch(){
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(()=>searchInput.focus(), 150);
 }
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('scrim').classList.remove('open');
+function closeSearch(){
+  document.getElementById('searchOverlay').classList.remove('open');
 }
 
 /* ===== Dark mode ===== */
 function initDarkMode(){
   const stored = localStorage.getItem('aurora_theme');
   if(stored === 'dark') document.documentElement.classList.add('dark');
-  updateDarkLabel();
   const toggle = () => {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
     localStorage.setItem('aurora_theme', isDark ? 'dark' : 'light');
-    updateDarkLabel();
   };
   document.getElementById('darkBtn').addEventListener('click', toggle);
-  document.getElementById('darkBtnDesktop').addEventListener('click', toggle);
-}
-function updateDarkLabel(){
-  const isDark = document.documentElement.classList.contains('dark');
-  const label = document.getElementById('darkLabel');
-  if(label) label.textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
 }
 
 /* ===== PWA install + offline status ===== */
@@ -791,8 +803,8 @@ function initPWA(){
 function updateOfflineBadge(){
   const badge = document.getElementById('offlineBadge');
   if(!badge) return;
-  if(navigator.onLine){ badge.textContent = 'Siap dipakai offline'; badge.classList.remove('is-offline'); }
-  else { badge.textContent = 'Mode offline aktif'; badge.classList.add('is-offline'); }
+  if(navigator.onLine){ badge.textContent = 'siap dipakai offline'; badge.classList.remove('is-offline'); }
+  else { badge.textContent = 'mode offline aktif'; badge.classList.add('is-offline'); }
 }
 
 /* ===== Collaboration (Firebase) ===== */
@@ -800,7 +812,7 @@ function initCollab(){
   window.addEventListener('aurora-db-ready', () => {
     dbReady = !!(window.AuroraDB && window.AuroraDB.ready);
     if(dbReady){
-      window.AuroraDB.subscribeNotes(notes => { COMMUNITY_NOTES = notes; renderCatList(); updateNavBadges(); render(); });
+      window.AuroraDB.subscribeNotes(notes => { COMMUNITY_NOTES = notes; renderNavPills(); updateNavBadges(); render(); });
       window.AuroraDB.subscribeComments(comments => {
         const grouped = {};
         comments.forEach(c => { grouped[c.page] = grouped[c.page] || []; grouped[c.page].push(c); });
@@ -842,23 +854,6 @@ function initCollab(){
   });
   document.getElementById('submitReport').addEventListener('click', submitReport);
 
-  document.getElementById('historyNavItem').addEventListener('click', ()=>{
-    activeCat = 'history';
-    document.querySelectorAll('.cat-item').forEach(el=>el.classList.remove('active'));
-    document.getElementById('historyNavItem').classList.add('active');
-    render();
-    closeSidebar();
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-  document.getElementById('recentNavItem').addEventListener('click', ()=>{
-    activeCat = 'recent';
-    document.querySelectorAll('.cat-item').forEach(el=>el.classList.remove('active'));
-    document.getElementById('recentNavItem').classList.add('active');
-    render();
-    closeSidebar();
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-
   const savedAuthor = localStorage.getItem('aurora_author');
   if(savedAuthor) document.getElementById('noteAuthor').value = savedAuthor;
 }
@@ -897,14 +892,10 @@ function bindEvents(){
   document.getElementById('lightbox').addEventListener('click', (ev)=>{
     if(ev.target.id === 'lightbox') closeLightbox();
   });
-  document.addEventListener('keydown', (ev)=>{ if(ev.key==='Escape'){ closeLightbox(); closeAddNoteModal(); closeReportModal(); closeAIModal(); } });
+  document.addEventListener('keydown', (ev)=>{ if(ev.key==='Escape'){ closeLightbox(); closeAddNoteModal(); closeReportModal(); closeAIModal(); closeSearch(); } });
 
-  document.getElementById('menuBtn').addEventListener('click', openSidebar);
-  document.getElementById('scrim').addEventListener('click', closeSidebar);
-  document.getElementById('searchBtn').addEventListener('click', ()=>{
-    openSidebar();
-    setTimeout(()=>searchInput.focus(), 200);
-  });
+  document.getElementById('searchBtn').addEventListener('click', openSearch);
+  document.getElementById('searchClose').addEventListener('click', closeSearch);
 }
 
 init();
